@@ -7,11 +7,13 @@ import axios from 'axios';
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
 
 app.use(cors());
 
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const USER_ID = process.env.USER_ID;
+const PORT = process.env.PORT || 3000;
+
 
 if (!GITHUB_TOKEN) {
     console.error('Token do github não encontrado em .env');
@@ -19,12 +21,11 @@ if (!GITHUB_TOKEN) {
 }
 
 app.get('/', (req, res) => {
-    res.send('Servidor Proxy ativo. Use /repos/:username ou /repos/:username/:repo/portfolio');
+    res.send('Servidor Proxy ativo.');
 });
 
-app.get('/users/:username/repos', async (req, res) => {
-    const { username } = req.params;
-    const url = `https://api.github.com/users/${username}/repos`;
+app.get('/user', async (req, res) => {
+    const url = `https://api.github.com/users/${USER_ID}/repos`;
 
     try {
         const response = await fetch(url, {
@@ -46,9 +47,9 @@ app.get('/users/:username/repos', async (req, res) => {
 
 });
 
-app.get('/repos/:username/:repo/portfolio', async (req, res) => {
-    const { username, repo } = req.params;
-    const url = `https://api.github.com/repos/${username}/${repo}/contents/portfolio.json?ref=master`;
+app.get('/project/:repo', async (req, res) => {
+    const { repo } = req.params;
+    const url = `https://api.github.com/repos/${USER_ID}/${repo}/contents/portfolio.json?ref=master`;
 
     try {
         const response = await fetch(url, {
@@ -73,5 +74,5 @@ app.get('/repos/:username/:repo/portfolio', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`API proxy rodando em http://localhost:${PORT}`);
+    console.log(`API proxy ativo em http://localhost:${PORT}/`);
 });
