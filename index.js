@@ -57,6 +57,10 @@ app.get('/repos/:username/:repo/portfolio', async (req, res) => {
             },
         });
 
+        if (response.status === 404) {
+            return res.status(200).json({ notFound: true });
+        }
+
         if (!response.ok) {
             return res.status(response.status).json({ error: 'Arquivo não encontrado ou outro erro' });
         }
@@ -66,8 +70,4 @@ app.get('/repos/:username/:repo/portfolio', async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: 'Erro interno no servidor', details: err.message });
     }
-});
-
-app.listen(PORT, () => {
-    console.log(`API proxy rodando em http://localhost:${PORT}`);
 });
