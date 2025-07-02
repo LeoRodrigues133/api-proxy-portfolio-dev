@@ -71,3 +71,7 @@ app.get('/repos/:username/:repo/portfolio', async (req, res) => {
         res.status(500).json({ error: 'Erro interno no servidor', details: err.message });
     }
 });
+
+app.listen(PORT, () => {
+    console.log(`API proxy rodando em http://localhost:${PORT}`);
+});
