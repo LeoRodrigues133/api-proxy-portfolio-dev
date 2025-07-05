@@ -21,7 +21,7 @@ if (!GITHUB_TOKEN) {
 }
 
 app.get('/', (req, res) => {
-    res.send('Servidor Proxy ativo.');
+    res.redirect("https://leorodrigues133.github.io/Meu-Portfolio-Angular/");
 });
 
 app.get('/user', async (req, res) => {
